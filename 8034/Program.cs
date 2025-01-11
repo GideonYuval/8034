@@ -46,15 +46,44 @@ namespace _8034
 
             foreach (object obj in arr)
             {
+                if (obj is Teacher)  
+                {
+                    Teacher teacher = (Teacher)obj;
+                    if (teacher.GetRating() > maxavg)
+                    {
+                        maxavg = teacher.GetRating();
+                        best = teacher;
+                    }
+                }
+            }
+
+            //using safe casting: 
+            /*
+
+            foreach (object obj in arr)
+            {
                 if (obj is Teacher teacher && teacher.GetRating() > maxavg)
                 {
                     maxavg = teacher.GetRating();
                     best = teacher;
                 }
             }
+            */
 
 
-            Console.WriteLine($"Highest ranked teacher: {best.GetName()}, Type: {best.GetType().Name}, Grade: {best.GetRating()}");
+            //Console.WriteLine($"Highest ranked teacher: {best.GetName()}, Type: {best.GetType().Name}, Grade: {best.GetRating()}");
+            //the below can be used if GetType cannot be used
+            Console.WriteLine($"Highest ranked teacher: {best.GetName()}, Grade: {best.GetRating()}");
+            if (best is Educator)
+                Console.WriteLine("Educator");
+            else if (best is Advisor)
+                Console.WriteLine("Advisor");
+            else if (best is Coordinator)
+                Console.WriteLine("Coordinator");
+            else
+                Console.WriteLine("Teacher");
+
+
         }
     }
 
