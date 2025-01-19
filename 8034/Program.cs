@@ -19,6 +19,7 @@ namespace _8034
             };
 
             OutstandingTeacher(teachers);
+
         }
 
         public static void OutstandingTeacher(Teacher[] arr)
@@ -34,8 +35,6 @@ namespace _8034
                     best = t;
                 }
             }
-
-
             Console.WriteLine($"Highest ranked teacher: {best.GetName()}, Grade: {best.GetRating()}");
         }
 
@@ -114,15 +113,15 @@ namespace _8034
     {
         private double eduAvg;
 
-        public Educator(string name, double studentAvg, double eduAvg)
-            : base(name, studentAvg)
-        {
-            this.eduAvg = eduAvg;
-        }
-
         public override double GetRating()
         {
             return base.GetRating() * 0.3 + eduAvg * 0.7;
+        }
+
+        public Educator(string name, double studentAvg, double eduAvg)
+    : base(name, studentAvg)
+        {
+            this.eduAvg = eduAvg;
         }
     }
 
@@ -130,15 +129,15 @@ namespace _8034
     {
         private double parentsAvg;
 
-        public Advisor(string name, double studentAvg, double parentsAvg)
-            : base(name, studentAvg)
-        {
-            this.parentsAvg = parentsAvg;
-        }
-
         public override double GetRating()
         {
             return base.GetRating() * 0.5 + parentsAvg * 0.5;
+        }
+
+        public Advisor(string name, double studentAvg, double parentsAvg)
+    : base(name, studentAvg)
+        {
+            this.parentsAvg = parentsAvg;
         }
     }
 
@@ -146,23 +145,22 @@ namespace _8034
     {
         private Teacher[] teachers;
 
-        public Coordinator(string name, double studentAvg, Teacher[] teachers)
-            : base(name, studentAvg)
-        {
-            this.teachers = teachers;
-        }
-
         public override double GetRating()
         {
             double avg = 0;
 
             foreach (Teacher t in teachers)
-            {
                 avg += t.GetRating();
-            }
 
             return base.GetRating() * 0.3 + avg / teachers.Length * 0.7;
         }
+
+        public Coordinator(string name, double studentAvg, Teacher[] teachers)
+    : base(name, studentAvg)
+        {
+            this.teachers = teachers;
+        }
+
     }
 
 
