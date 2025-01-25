@@ -6,20 +6,78 @@ namespace _8034
     {
         static void Main(string[] args)
         {
-            // Example usage:
-            Teacher[] teachers = new Teacher[]
-            {
-                new Educator("Educator A", 80, 85),
-                new Coordinator("Coordinator B", 70, new Teacher[]
-                {
-                    new Educator("Educator C", 90, 80),
-                    new Advisor("Advisor D", 85, 75)
-                }),
-                new Advisor("Advisor E", 75, 80)
+            RunTests();
+        }
+
+        public static void RunTests()
+        {
+            int testCounter = 1;
+
+            // Test 1: Single teacher
+            Teacher[] test1 = {
+                new Teacher("Teacher A", 8.5)
             };
+            RunTest(test1, "Teacher A", 8.5, ref testCounter);
 
-            OutstandingTeacher(teachers);
+            // Test 2: Multiple teachers with varying ratings
+            Teacher[] test2 = {
+    new Teacher("Teacher A", 8.0),
+    new Educator("Educator B", 7.5, 9.0), // Rating: 8.55
+    new Advisor("Advisor C", 8.5, 7.5),   // Rating: 8.0
+    new Coordinator("Coordinator D", 6.0, new Teacher[]
+    {
+        new Teacher("Teacher E", 9.0),
+        new Educator("Educator F", 8.0, 8.5) // Rating: 8.35
+    }) // Coordinator rating: 7.675
+};
+            RunTest(test2, "Educator B", 8.55, ref testCounter);
 
+            // Test 3: All teachers have the same score
+            Teacher[] test3 = {
+                new Teacher("Teacher A", 8.0),
+                new Educator("Educator B", 8.0, 8.0),
+                new Advisor("Advisor C", 8.0, 8.0)
+            };
+            RunTest(test3, "Teacher A", 8.0, ref testCounter);
+
+            // Test 4: Coordinator with no teachers
+            Teacher[] test4 = {
+    new Coordinator("Coordinator A", 7.5, new Teacher[]
+    {
+        new Teacher("Teacher B", 8.0)
+    })
+};
+            RunTest(test4, "Coordinator A", 7.85, ref testCounter);
+
+        }
+
+        public static void RunTest(Teacher[] teachers, string expectedName, double expectedRating, ref int testCounter)
+        {
+            Console.WriteLine($"Running Test {testCounter}...");
+            testCounter++;
+
+            double maxavg = 0;
+            Teacher best = null;
+
+            foreach (Teacher t in teachers)
+            {
+                if (t.GetRating() > maxavg)
+                {
+                    maxavg = t.GetRating();
+                    best = t;
+                }
+            }
+
+            if (best.GetName() == expectedName && Math.Abs(best.GetRating() - expectedRating) < 0.0001)
+            {
+                Console.WriteLine($"Test passed!\n");
+            }
+            else
+            {
+                Console.WriteLine($"Test failed!");
+                Console.WriteLine($"Expected: Name = {expectedName}, Rating = {expectedRating}");
+                Console.WriteLine($"Actual: Name = {best.GetName()}, Rating = {best.GetRating()}\n");
+            }
         }
 
         public static void OutstandingTeacher(Teacher[] arr)
